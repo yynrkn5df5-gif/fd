@@ -1,1 +1,456 @@
 
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=yes">
+    <title>اختبار الرياضيات الشامل - خامس ابتدائي ف1</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: #f0f7ff;
+            margin: 0;
+            padding: 16px;
+            font-family: 'Segoe UI', 'Tahoma', 'Cairo', 'Roboto', system-ui, -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
+            color: #1e2a3e;
+        }
+
+        /* تحسين الشاشات الصغيرة جداً */
+        @media (max-width: 480px) {
+            body {
+                padding: 10px;
+            }
+        }
+
+        .container {
+            max-width: 880px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 36px;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+            overflow-x: hidden;
+            padding: 20px 18px 40px;
+        }
+
+        /* تدوير الشاشة (Landscape) تحسينات */
+        @media (orientation: landscape) and (max-height: 600px) {
+            .container {
+                padding: 12px 18px 25px;
+            }
+            .question-card {
+                margin-bottom: 16px;
+                padding: 12px 16px;
+            }
+        }
+
+        h1 {
+            font-size: 1.8rem;
+            text-align: center;
+            color: #0a4b6e;
+            border-bottom: 3px solid #ffb74d;
+            display: inline-block;
+            width: 100%;
+            margin-top: 0;
+            padding-bottom: 10px;
+            word-break: keep-all;
+        }
+
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 1.4rem;
+            }
+        }
+
+        .sub {
+            text-align: center;
+            color: #2c7da0;
+            margin-bottom: 20px;
+            font-weight: 500;
+            font-size: 0.95rem;
+            line-height: 1.4;
+        }
+
+        .question-card {
+            background: #ffffff;
+            border-radius: 24px;
+            margin-bottom: 24px;
+            padding: 16px 18px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+            border: 1px solid #e2edf7;
+            transition: all 0.2s;
+            break-inside: avoid;
+            page-break-inside: avoid;
+        }
+
+        .question-text {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 14px;
+            color: #0b3b4f;
+            padding-right: 12px;
+            border-right: 5px solid #ffb74d;
+            line-height: 1.4;
+            word-break: break-word;
+        }
+
+        @media (max-width: 550px) {
+            .question-text {
+                font-size: 1rem;
+            }
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin: 12px 0 8px;
+        }
+
+        .option {
+            background: #f8fafc;
+            border-radius: 60px;
+            padding: 8px 16px;
+            border: 1px solid #cbdde9;
+            cursor: pointer;
+            transition: 0.1s ease;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .option:active {
+            background: #e9f0f6;
+            transform: scale(0.98);
+        }
+
+        input[type="radio"] {
+            width: 20px;
+            height: 20px;
+            accent-color: #2c7da0;
+            flex-shrink: 0;
+            margin: 0;
+            cursor: pointer;
+        }
+
+        .option label {
+            flex: 1;
+            font-size: 1rem;
+            font-weight: 500;
+            color: #1f4e6e;
+            cursor: pointer;
+            word-break: break-word;
+            line-height: 1.4;
+        }
+
+        @media (max-width: 550px) {
+            .option label {
+                font-size: 0.85rem;
+            }
+            .option {
+                padding: 6px 12px;
+                gap: 8px;
+            }
+            input[type="radio"] {
+                width: 18px;
+                height: 18px;
+            }
+        }
+
+        .feedback {
+            margin-top: 12px;
+            padding: 10px 14px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            line-height: 1.45;
+            display: none;
+        }
+
+        .feedback.correct {
+            background: #dff9e6;
+            border-right: 5px solid #2ecc71;
+            color: #145a32;
+            display: block;
+        }
+
+        .feedback.wrong {
+            background: #ffe8e6;
+            border-right: 5px solid #e67e22;
+            color: #a42213;
+            display: block;
+        }
+
+        .submit-area {
+            text-align: center;
+            margin: 25px 0 20px;
+        }
+
+        button {
+            background: #ffb74d;
+            border: none;
+            color: #2c3e2f;
+            font-size: 1.2rem;
+            font-weight: bold;
+            padding: 14px 28px;
+            border-radius: 60px;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            transition: 0.2s;
+            width: auto;
+            min-width: 220px;
+        }
+
+        button:active {
+            transform: scale(0.97);
+            background: #ffa01e;
+        }
+
+        .result {
+            background: #eef2fa;
+            border-radius: 28px;
+            padding: 16px;
+            text-align: center;
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+
+        footer {
+            font-size: 0.75rem;
+            text-align: center;
+            margin-top: 28px;
+            color: #6c8a9e;
+        }
+
+        /* منع التمرير الأفقي */
+        body, .container {
+            overflow-x: hidden;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>📚 اختبار الرياضيات الشامل</h1>
+    <div class="sub">الصف الخامس الابتدائي – الفصل الدراسي الأول (1443)<br>100 سؤال • يغطي جميع المهارات</div>
+    <div id="questions-container"></div>
+    <div class="submit-area">
+        <button id="submitBtn">✔️ تصحيح الاختبار الآن</button>
+    </div>
+    <div id="resultArea" class="result" style="display: none;"></div>
+    <footer>الاختبار يعمل على جميع الجوالات • تغذية راجعة لحظية مع تفسير الخطأ</footer>
+</div>
+
+<script>
+    // --------------------------------------------------------------
+    // 100 سؤال شامل جميع فصول الرياضيات الصف الخامس ف1
+    // مع الحلول والتفسيرات
+    // --------------------------------------------------------------
+    const questions = [];
+
+    // 1-10 القيمة المنزلية / الأعداد / الكسور العشرية
+    questions.push({ text: "ما القيمة المنزلية للرقم ٧ في العدد ٣٧٥,٢٨٤؟", options: ["أ) ٧ آلاف", "ب) ٧ عشرات", "ج) ٧ مئات", "د) ٧ عشرات آلاف", "هـ) ٧ وحدات", "و) ٧ مئات الألوف"], correct: 3, explanation: "الرقم ٧ يقع في منزلة عشرات الألوف (٣٧٥,٢٨٤) لذا قيمته ٧٠,٠٠٠ أي سبعون ألفاً." });
+    questions.push({ text: "اكتب العدد ٥٠٦,٣٢٩ بالصيغة التحليلية.", options: ["أ) ٥٠٠٠٠٠+٦٠٠٠+٣٠٠+٢٠+٩", "ب) ٥٠٠٠٠٠+٦٠٠٠+٣٠٠+٢٩", "ج) ٥٠٠٠٠٠+٦٠٠٠+٣٠٠+٢٠+٩", "د) ٥٠٠٠٠٠+٦٠٠٠+٣٠٠+٩", "هـ) ٥٠٠٠٠٠+٦٠٠٠+٣٠٠+٢٠+٩", "و) ٥٠٠٠٠٠+٦٠٠٠+٣٢٠+٩"], correct: 0, explanation: "الصيغة التحليلية: ٥٠٠٠٠٠ + ٦٠٠٠ + ٣٠٠ + ٢٠ + ٩ = ٥٠٦,٣٢٩." });
+    questions.push({ text: "أي الكسور العشرية يمثل العدد ٣ و ٥٢ جزءاً من مئة؟", options: ["أ) ٣,٥٢", "ب) ٣,٠٥٢", "ج) ٣,٥٢٠", "د) ٣,٠٥٢", "هـ) ٣,٥٢", "و) ٣٥,٢"], correct: 0, explanation: "ثلاثة واثنان وخمسون جزءاً من مئة = ٣,٥٢." });
+    questions.push({ text: "قارن بين ٠,٤٥ و ٠,٤٥٠ :", options: ["أ) ٠,٤٥ > ٠,٤٥٠", "ب) ٠,٤٥ < ٠,٤٥٠", "ج) ٠,٤٥ = ٠,٤٥٠", "د) لا يمكن", "هـ) ٠,٤٥٠ أكبر", "و) ٠,٤٥ أكبر بكثير"], correct: 2, explanation: "إضافة أصفار إلى يمين الكسر العشري لا تغير قيمته، ٠,٤٥ = ٠,٤٥٠." });
+    questions.push({ text: "ما قيمة الرقم ٩ في العدد ٩٢,١٨٤؟ (منزلة أجزاء من عشرة)", options: ["أ) ٠,٠٠٩", "ب) ٠,٠٩", "ج) ٠,٩", "د) ٩", "هـ) ٩٠", "و) ٩٠٠"], correct: 2, explanation: "الرقم ٩ يقع في منزلة أجزاء العشرة (٩٢,١٨٤) أي ٠,٩" });
+    questions.push({ text: "أي الأعداد التالية يمثل خمسة آلاف وثلاثة عشر؟", options: ["أ) ٥١٣٠", "ب) ٥٠١٣", "ج) ٥٠٠١٣", "د) ٥٠٣٠", "هـ) ٥٠٠٠١٣", "و) ٥٣٠٠"], correct: 1, explanation: "خمسة آلاف = ٥٠٠٠ + ثلاثة عشر = ٥٠١٣." });
+    questions.push({ text: "حوّل ١٢,٤ إلى كسر اعتيادي في أبسط صورة:", options: ["أ) ١٢٤/١٠", "ب) ٦٢/٥", "ج) ١٢٤/١٠٠", "د) ٣١/٥", "هـ) ١٢٤/١٠", "و) ١٢ ٢/٥"], correct: 1, explanation: "١٢,٤ = ١٢٤/١٠ = ٦٢/٥ بعد القسمة على ٢، أو ١٢ و ٢/٥." });
+    questions.push({ text: "رتب تصاعدياً: ٠,٨ - ٠,٥٩ - ٠,٧", options: ["أ) ٠,٨ , ٠,٧ , ٠,٥٩", "ب) ٠,٥٩ , ٠,٧ , ٠,٨", "ج) ٠,٧ , ٠,٥٩ , ٠,٨", "د) ٠,٨ , ٠,٥٩ , ٠,٧", "هـ) ٠,٥٩ , ٠,٨ , ٠,٧", "و) ٠,٧ , ٠,٨ , ٠,٥٩"], correct: 1, explanation: "أصغرها ٠,٥٩ ثم ٠,٧ ثم ٠,٨، الترتيب التصاعدي يبدأ بالأصغر." });
+    questions.push({ text: "ما ناتج جمع ٢,٦ + ١,٧ ؟", options: ["أ) ٣,٣", "ب) ٤,٣", "ج) ٣,٩", "د) ٤,١", "هـ) ٣,١٣", "و) ٤,٢"], correct: 1, explanation: "٢,٦ + ١,٧ = ٤,٣ (جمع الأجزاء: ٠,٦+٠,٧=١,٣ + ٢+١=٣ ثم ٣+١,٣=٤,٣)." });
+    questions.push({ text: "اشترت سلمى ٣ كيلو عسل، وكتبته ٣/١٠ كجم، اكتب الكسر على صورة كسر عشري.", options: ["أ) ٠,٠٣", "ب) ٠,٣", "ج) ٣,٠", "د) ٠,٣٣", "هـ) ٣,٠٣", "و) ٣,٣"], correct: 1, explanation: "٣/١٠ = ٠,٣ (ثلاثة أعشار)." });
+
+    // 11-20 الجمع والطرح والتقدير
+    questions.push({ text: "أوجد ناتج ٤٨,٢ - ١٣,٩", options: ["أ) ٣٤,٣", "ب) ٣٥,٣", "ج) ٣٤,٧", "د) ٣٥,١", "هـ) ٣٣,٣", "و) ٣٤,١"], correct: 0, explanation: "٤٨,٢ - ١٣,٩ = ٣٤,٣ (٤٨,٢ - ١٤ = ٣٤,٢ ثم نضيف ٠,١ = ٣٤,٣)." });
+    questions.push({ text: "قدّر ناتج ٥٢٧ + ١٩٨ باستعمال التقريب إلى أقرب مئة.", options: ["أ) ٧٠٠", "ب) ٧٣٠", "ج) ٧٢٠", "د) ٧٥٠", "هـ) ٨٠٠", "و) ٦٨٠"], correct: 0, explanation: "٥٢٧ ≈ ٥٠٠ ، ١٩٨ ≈ ٢٠٠ ، المجموع ٧٠٠." });
+    questions.push({ text: "خاصية الجمع المستعملة: ٢,٣ + ٩,٠ = ٩,٠ + ٢,٣", options: ["أ) التجميعية", "ب) الإبدالية", "ج) العنصر المحايد", "د) التوزيع", "هـ) الانغلاق", "و) العكسية"], correct: 1, explanation: "الإبدالية: تغيير ترتيب الأعداد لا يغير المجموع." });
+    questions.push({ text: "إذا كانت درجة الحرارة ٢٤,٦ س في الرياض، و٢٨,٢ س في أبها، قدر الفرق بالتقريب لأقرب آحاد.", options: ["أ) ٣", "ب) ٤", "ج) ٥", "د) ٢", "هـ) ١", "و) ٦"], correct: 1, explanation: "التقريب ٢٤,٦≈٢٥ ، ٢٨,٢≈٢٨ ، الفرق ≈ ٣ ، لكن الأدق ٢٨-٢٥=٣." });
+    questions.push({ text: "جمع ذهني باستعمال الموازنة: ٢٩٧ + ٣٦٢", options: ["أ) ٦٥٩", "ب) ٦٦٠", "ج) ٦٦١", "د) ٦٥٨", "هـ) ٦٥٠", "و) ٦٧٠"], correct: 0, explanation: "بالجمع العادي ٢٩٧+٣٦٢ = ٦٥٩." });
+    questions.push({ text: "أوجد ناتج ٧,٦٥ - ٣,٢٨", options: ["أ) ٤,٣٧", "ب) ٤,٤٧", "ج) ٤,٢٧", "د) ٤,٥٧", "هـ) ٣,٣٧", "و) ٥,٣٧"], correct: 0, explanation: "٧,٦٥ - ٣,٢٨ = ٤,٣٧ (طرح المنازل)." });
+    questions.push({ text: "إذا مع محمد ٣٧٥ ريالاً وتكلفة القفص ١٥ ريالاً وأجرة النقل ٩٠ ريالاً، كم قفصاً يستطيع شراءه باستخدام خطة الحل عكسياً؟", options: ["أ) ١٩", "ب) ٢٠", "ج) ١٨", "د) ٢١", "هـ) ١٧", "و) ٢٢"], correct: 0, explanation: "٣٧٥ - ٩٠ = ٢٨٥ ، ٢٨٥ ÷ ١٥ = ١٩ قفصاً." });
+    questions.push({ text: "ناتج ٦,٨ + ٠,٤٥ =", options: ["أ) ٧,٢٥", "ب) ٧,١٥", "ج) ٧,٣٠", "د) ٦,٩٥", "هـ) ٧,٣٥", "و) ٧,٠٥"], correct: 0, explanation: "٦,٨٠ + ٠,٤٥ = ٧,٢٥." });
+    questions.push({ text: "في مزرعة ١٦٠ كجم رطب وزعت على ٤٠ وعاء، ما نصيب الوعاء الواحد؟", options: ["أ) ٥", "ب) ٤", "ج) ٦", "د) ٣", "هـ) ٨", "و) ١٠"], correct: 1, explanation: "١٦٠ ÷ ٤٠ = ٤ كجم." });
+    questions.push({ text: "قدر ناتج ٤٥٨ - ٣٤٠ باستعمال أعداد متناغمة", options: ["أ) ١٢٠", "ب) ١٠٠", "ج) ٨٠", "د) ١٥٠", "هـ) ٩٠", "و) ٧٠"], correct: 1, explanation: "٤٥٨≈٤٥٠ و ٣٤٠≈٣٥٠ ، ٤٥٠-٣٥٠=١٠٠" });
+
+    // 21-30 الضرب
+    questions.push({ text: "أوجد ناتج ١٦ × ٥ ذهنياً باستعمال نواتج الضرب الجزئية", options: ["أ) ٨٠", "ب) ٩٠", "ج) ٧٠", "د) ١٠٠", "هـ) ١٢٠", "و) ٦٠"], correct: 0, explanation: "١٠×٥=٥٠ ، ٦×٥=٣٠ ، المجموع ٨٠." });
+    questions.push({ text: "استعمل خاصية التوزيع: ٨ × (٢٠+٣) =", options: ["أ) ١٨٤", "ب) ١٨٠", "ج) ١٢٠", "د) ٢٠٠", "هـ) ١٦٠", "و) ١٩٢"], correct: 0, explanation: "٨×٢٠=١٦٠ ، ٨×٣=٢٤ ، المجموع ١٨٤." });
+    questions.push({ text: "قدر ناتج ٩٢ × ١٣ باستعمال تقريب كلا العاملين.", options: ["أ) ١٢٠٠", "ب) ٩٠٠", "ج) ١١٧٠", "د) ١٢٠٠", "هـ) ١٠٠٠", "و) ٨٠٠"], correct: 0, explanation: "٩٢≈٩٠، ١٣≈١٠، ٩٠×١٠=٩٠٠ لكن بالضبط ١١٩٦ ≈ ١٢٠٠." });
+    questions.push({ text: "إذا كان سعر الكيلو ٥٦ ريالاً، فكم ثمن ٤ كيلو جرام؟", options: ["أ) ٢٢٤", "ب) ٢٠٠", "ج) ٢٤٠", "د) ٢٥٠", "هـ) ٢١٦", "و) ٢٨٠"], correct: 0, explanation: "٥٦ × ٤ = ٢٢٤ ريالاً" });
+    questions.push({ text: "ناتج ٢٨ × ٢٤ =", options: ["أ) ٦٢٤", "ب) ٦٧٢", "ج) ٦٧٦", "د) ٦٥٦", "هـ) ٦٤٨", "و) ٦٧٢"], correct: 0, explanation: "٢٨ × ٢٤ = ٦٧٢، ٢٨×٢٠=٥٦٠ و ٢٨×٤=١١٢ المجموع ٦٧٢." });
+    questions.push({ text: "خاصية الضرب: (٥٠×٢)×١٤ = ٥٠×(٢×١٤)", options: ["أ) الإبدال", "ب) التجميع", "ج) توزيع", "د) المحايد", "هـ) الامتصاص", "و) الانعكاس"], correct: 1, explanation: "تجميعية: تغيير طريقة تجميع العوامل لا يغير الناتج." });
+    questions.push({ text: "يقطع الذئب ١٣ متراً في الثانية، كم يقطع في ١٢ ثانية؟", options: ["أ) ١٥٦", "ب) ١٤٣", "ج) ١٦٩", "د) ١٣٠", "هـ) ١٢٠", "و) ١٤٤"], correct: 0, explanation: "١٣ × ١٢ = ١٥٦ متراً." });
+    questions.push({ text: "ناتج ٣٤ × ٢١ =", options: ["أ) ٧١٤", "ب) ٦٩٤", "ج) ٦٤٤", "د) ٧٠٤", "هـ) ٧٢٤", "و) ٧٤٤"], correct: 0, explanation: "٣٤ × ٢٠ = ٦٨٠ ، ٣٤ × ١ = ٣٤ ، المجموع ٧١٤." });
+    questions.push({ text: "باستعمال الأعداد المتناغمة قدر ٤٢٨ × ٦", options: ["أ) ٢٨٠٠", "ب) ٢٤٠٠", "ج) ٢٥٠٠", "د) ٢٦٠٠", "هـ) ٣٠٠٠", "و) ٢٧٠٠"], correct: 0, explanation: "٤٢٨ ≈ ٤٠٠×٦=٢٤٠٠ ." });
+    questions.push({ text: "اشترت مدرسة ١٧ راية ثمن الواحدة ٢٨ ريالاً، فكم دفعت؟", options: ["أ) ٤٧٦", "ب) ٤٥٢", "ج) ٥٠٤", "د) ٤٨٨", "هـ) ٤٧٠", "و) ٤٨٠"], correct: 0, explanation: "١٧ × ٢٨ = ٤٧٦ ريالاً." });
+
+    // 31-40 القسمة
+    questions.push({ text: "أوجد ٩٠٠ ÷ ٣٠ ذهنياً", options: ["أ) ٣٠", "ب) ٣٥", "ج) ٤٠", "د) ٢٥", "هـ) ٤٥", "و) ٢٠"], correct: 0, explanation: "٩٠٠ ÷ ٣٠ = ٩٠ ÷ ٣ = ٣٠ ." });
+    questions.push({ text: "تقدير ناتج ٤٤٢ ÷ ١٠ باستعمال أعداد متناغمة", options: ["أ) ٤٠", "ب) ٤٤", "ج) ٥٠", "د) ٣٠", "هـ) ٤٥", "و) ٥٥"], correct: 0, explanation: "٤٤٢≈٤٤٠ لكن متناغمة ٤٠٠÷١٠=٤٠." });
+    questions.push({ text: "قسمة ٩٦ ÷ ٨ =", options: ["أ) ١١", "ب) ١٢", "ج) ١٣", "د) ١٠", "هـ) ١٤", "و) ٩"], correct: 1, explanation: "٨×١٢=٩٦" });
+    questions.push({ text: "إذا وزع ٣٩٦ شخصاً على ٣٦ قارباً، كم شخصاً في كل قارب؟", options: ["أ) ١١", "ب) ١٠", "ج) ١٢", "د) ١٣", "هـ) ٩", "و) ١٥"], correct: 0, explanation: "٣٩٦ ÷ ٣٦ = ١١ (٣٦×١١=٣٩٦)" });
+    questions.push({ text: "باقي القسمة ١٧٤ ÷ ٨ =", options: ["أ) ٤", "ب) ٦", "ج) ٢", "د) ٠", "هـ) ١", "و) ٣"], correct: 1, explanation: "٨×٢١=١٦٨ ، الباقي ٦." });
+    questions.push({ text: "٩٢ ÷ ٤ =", options: ["أ) ٢٣", "ب) ٢٢", "ج) ٢٤", "د) ٢١", "هـ) ٢٦", "و) ٢٥"], correct: 0, explanation: "٤×٢٣=٩٢" });
+    questions.push({ text: "كم صندوقاً يتسع لـ ٤٠٨ سيارة إذا كان كل صندوق يتسع لـ ١٢ سيارة؟", options: ["أ) ٣٤", "ب) ٣٠", "ج) ٣٣", "د) ٣٢", "هـ) ٣٥", "و) ٤٠"], correct: 0, explanation: "٤٠٨ ÷ ١٢ = ٣٤ صندوقاً." });
+    questions.push({ text: "ناتج ٨٠٠ ÷ ٢٠ =", options: ["أ) ٤٠", "ب) ٣٠", "ج) ٤٥", "د) ٢٠", "هـ) ٥٠", "و) ٢٥"], correct: 0, explanation: "٨٠٠÷٢٠=٤٠" });
+    questions.push({ text: "يريد ١٧٤ شخصاً الجلوس على طاولات تتسع ٨ أشخاص، كم طاولة نحتاج؟ (مع الباقي)", options: ["أ) ٢٢", "ب) ٢٠", "ج) ٢١", "د) ٢٣", "هـ) ٢٤", "و) ١٩"], correct: 0, explanation: "١٧٤ ÷ ٨ = ٢١ والباقي ٦، نحتاج ٢٢ طاولة." });
+    questions.push({ text: "أوجد ناتج ٢٥٥ ÷ ٥ =", options: ["أ) ٥١", "ب) ٥٣", "ج) ٤٩", "د) ٥٠", "هـ) ٥٥", "و) ٤٥"], correct: 0, explanation: "٢٥٥÷٥=٥١ (ضرب ٥×٥١=٢٥٥)" });
+
+    // 41-50 الكسور الاعتيادية
+    questions.push({ text: "اكتب الكسر ٧/١٠ ككسر عشري", options: ["أ) ٠,٧", "ب) ٠,٠٧", "ج) ٠,٠٠٧", "د) ٧,٠", "هـ) ٠,٧٠", "و) ٧,١"], correct: 0, explanation: "٧/١٠ = ٠,٧" });
+    questions.push({ text: "ما الكسر الذي يمثل ٤ أجزاء من عشرة؟", options: ["أ) ٠,٤", "ب) ٠,٠٤", "ج) ٤/١٠٠", "د) ٠,٤٤", "هـ) ٤/١", "و) ٠,٤٠"], correct: 0, explanation: "أربعة أعشار = ٠,٤" });
+    questions.push({ text: "حول ٣/٨ إلى عدد كسري؟ (٣/٨ كسر غير فعلي؟)", options: ["أ) ٣ ١/٨", "ب) ١ ٣/٨", "ج) ١ ٥/٨", "د) ٣/٨ أصغر من ١", "هـ) ٢ ٣/٨", "و) ٤/٨"], correct: 3, explanation: "الكسر ٣/٨ أقل من واحد، يبقى كما هو ٣/٨." });
+    questions.push({ text: "مقارنة: ٣/٥ □ ٢/٣", options: ["أ) >", "ب) <", "ج) =", "د) ≥", "هـ) لا تقارن", "و) ≠"], correct: 1, explanation: "بجعل المقام ١٥: ٣/٥=٩/١٥ , ٢/٣=١٠/١٥ ، إذن ٣/٥ < ٢/٣." });
+    questions.push({ text: "اكتب ١ ٣/٤ على صورة كسر غير فعلي", options: ["أ) ٧/٤", "ب) ٥/٤", "ج) ٦/٤", "د) ١١/٤", "هـ) ٣/٤", "و) ٨/٤"], correct: 0, explanation: "١×٤+٣ = ٧/٤" });
+    questions.push({ text: "ما الكسر العشري المكافئ لـ ١/٢؟", options: ["أ) ٠,٢", "ب) ٠,٥", "ج) ٠,٥٠", "د) ٠,٢٥", "هـ) ٠,٢٢", "و) ٠,١"], correct: 1, explanation: "١/٢ = ٠,٥" });
+    questions.push({ text: "قرب ٧/٨ إلى أقرب نصف.", options: ["أ) ٠", "ب) ١/٢", "ج) ١", "د) ١/٤", "هـ) ٢", "و) ٣/٤"], correct: 2, explanation: "٧/٨ = ٠,٨٧٥ قريب جداً من ١." });
+    questions.push({ text: "أي الكسور التالية يمثل الجزء المظلل إذا ظللنا ٦٣ مربعاً من ١٠٠؟", options: ["أ) ٠,٦٣", "ب) ٠,٣٦", "ج) ٦,٣", "د) ٠,٠٦٣", "هـ) ٦٣/١٠", "و) ٠,٦٣٠"], correct: 0, explanation: "٦٣ من مئة = ٠,٦٣" });
+    questions.push({ text: "تحويل ٢,٧٥ إلى كسر اعتيادي:", options: ["أ) ٢ ٣/٤", "ب) ٢ ١/٢", "ج) ٢ ٧/١٠", "د) ١١/٤", "هـ) ٢ ١/٤", "و) ٢٧٥/١٠٠"], correct: 0, explanation: "٢,٧٥ = ٢٧٥/١٠٠ = ١١/٤ = ٢ ٣/٤" });
+    questions.push({ text: "إذا كان مع خالد ٥/٦ تفاحة، ومع سعد ٣/٤ تفاحة، من يملك كمية أكبر؟", options: ["أ) خالد", "ب) سعد", "ج) متساويان", "د) لا يمكن", "هـ) ٥/٦", "و) ٣/٤"], correct: 0, explanation: "٥/٦ ≈ ٠,٨٣٣ , ٣/٤=٠,٧٥ ، خالد أكثر." });
+
+    // 51-60 عبارات جبرية ومعادلات
+    questions.push({ text: "العبارة الجبرية لـ 'يزيد عدد س عن ٤ بمقدار ٣'", options: ["أ) س+٣=٤", "ب) س-٣=٤", "ج) س+٤=٣", "د) س=٤+٣", "هـ) ٣س=٤", "و) س/٣=٤"], correct: 3, explanation: "س يزيد عن ٤ بمقدار ٣ يعني س = ٤+٣" });
+    questions.push({ text: "إذا كانت س=٥ فأوجد قيمة ٢س+٣", options: ["أ) ١٠", "ب) ١٣", "ج) ٨", "د) ١٢", "هـ) ١٥", "و) ٢٥"], correct: 1, explanation: "٢×٥+٣=١٠+٣=١٣" });
+    questions.push({ text: "حل المعادلة ن - ٧ = ٩", options: ["أ) ٢", "ب) ١٦", "ج) ١٤", "د) ١٢", "هـ) ٩", "و) ٧"], correct: 1, explanation: "ن = ٩+٧=١٦" });
+    questions.push({ text: "اكتب معادلة تمثل: ٥ أمثال عدد يساوي ٣٥", options: ["أ) ٥+س=٣٥", "ب) س/٥=٣٥", "ج) ٥س=٣٥", "د) س-٥=٣٥", "هـ) ٣٥س=٥", "و) س=٣٥/٥"], correct: 2, explanation: "أمثال تعني ضرب: ٥ × س = ٣٥" });
+    questions.push({ text: "إذا كانت ص=٨ فأوجد قيمة ٣ص-٤", options: ["أ) ٢٠", "ب) ٢٤", "ج) ٢٨", "د) ١٢", "هـ) ١٦", "و) ٣٢"], correct: 0, explanation: "٣×٨ -٤ = ٢٤-٤=٢٠" });
+    questions.push({ text: "جدول الدالة: المدخلات ٤ , ٥ , ٦ والمخرجات ١٢ , ١٥ , ١٨ ما قاعدة الدالة؟", options: ["أ) س+٨", "ب) س×٣", "ج) س×٢+٤", "د) س+٩", "هـ) ٣س-١", "و) ٤س"], correct: 1, explanation: "كل مدخلة تضرب في ٣ تعطي المخرجة." });
+    questions.push({ text: "عمر نوال س، وعمر والدها ضعف عمرها، أي عبارة تمثل عمر الوالد؟", options: ["أ) س+٢", "ب) ٢س", "ج) س/٢", "د) س-٢", "هـ) ٢+س", "و) ٢س+١"], correct: 1, explanation: "ضعف س يعني ٢س" });
+    questions.push({ text: "أوجد قيمة ٩×(٢+٥) وفق ترتيب العمليات", options: ["أ) ٦٣", "ب) ٤٥", "ج) ٥٤", "د) ٧٢", "هـ) ٨١", "و) ٥٦"], correct: 0, explanation: "بين القوسين أولاً ٢+٥=٧ ثم ٩×٧=٦٣" });
+    questions.push({ text: "إذا كان عمر أحمد ١٢ سنة وعمر أخته نصف عمره، كم عمر أخته؟", options: ["أ) ٦", "ب) ٤", "ج) ٨", "د) ١٠", "هـ) ٩", "و) ٥"], correct: 0, explanation: "نصف ١٢ = ٦ سنوات" });
+    questions.push({ text: "حل المعادلة ٣س = ٢٤", options: ["أ) س=٧", "ب) س=٩", "ج) س=٨", "د) س=٦", "هـ) س=١٢", "و) س=٤"], correct: 2, explanation: "قسمة الطرفين على ٣: س=٨" });
+
+    // 61-70 مسائل لفظية
+    questions.push({ text: "محمد رأى ١٩ جملاً مجموع سنامها ٢٧ (بعضها بسنام واحد وبعضها بسنامان). كم جملاً ذا سنامين؟ استعمل التخمين والتحقق", options: ["أ) ٨", "ب) ١١", "ج) ٩", "د) ١٠", "هـ) ١٢", "و) ٧"], correct: 0, explanation: "نفرض ٨ جمال بسنامين ٨×٢=١٦ و ١١ جمل بسنام واحد ١١×١=١١ المجموع ٢٧ سنام، والعدد ٨+١١=١٩" });
+    questions.push({ text: "في مسح: ١٥ طالب يلعبون كرة سلة، ١٨ كرة قدم، ٣ يلعبون معاً، كم عدد من يلعبون كرة سلة فقط؟", options: ["أ) ١٢", "ب) ١٥", "ج) ١٣", "د) ١٤", "هـ) ١٠", "و) ١١"], correct: 0, explanation: "كرة سلة فقط = ١٥ - ٣ = ١٢" });
+    questions.push({ text: "استعمل خطة الحل عكسياً: المبلغ ٣٧٥ ريال، أجرة النقل ٩٠، سعر القفص ١٥، كم قفصاً؟", options: ["أ) ١٩", "ب) ٢٠", "ج) ١٨", "د) ٢١", "هـ) ١٧", "و) ٢٢"], correct: 0, explanation: "(٣٧٥-٩٠)÷١٥=١٩" });
+    questions.push({ text: "إذا كان ثمن الفطيرة الكبيرة ١٣ ريالاً وتساوي ضعف الصغيرة زائد ٣، فما ثمن الصغيرة؟ (حل عكسي)", options: ["أ) ٥", "ب) ٦", "ج) ٤", "د) ٧", "هـ) ٨", "و) ٣"], correct: 0, explanation: "١٣-٣=١٠، ١٠÷٢=٥ ريالات." });
+    questions.push({ text: "يريد بناء فيلا عرضها ٣٠ م ويترك ١٥ م بين كل فيلا و١٥ م طرفين، بطول ٢٧٠ م كم فيلا؟", options: ["أ) ٥", "ب) ٤", "ج) ٦", "د) ٧", "هـ) ٨", "و) ٣"], correct: 0, explanation: "٥ فيلات تحتاج ٥×٣٠=١٥٠ + ٤×١٥=٦٠ +٣٠=٢٤٠ ≤ ٢٧٠، إذن ٥ فلل" });
+    questions.push({ text: "إذا كان لديك ١٢ تفاحة وتريد توزيعها على ٥ أطفال بالتساوي، ما نصيب كل طفل والباقي؟", options: ["أ) ٢ والباقي ٢", "ب) ٢ والباقي ١", "ج) ٣ والباقي ٠", "د) ٢ والباقي ٣", "هـ) ٣ والباقي ١", "و) ١ والباقي ٧"], correct: 0, explanation: "١٢÷٥ = ٢ والباقي ٢" });
+    questions.push({ text: "يوجد ٣٦ شخصاً يريدون ركوب قوارب، كل قارب يسع ٨ أشخاص. كم قارباً يحتاجون؟", options: ["أ) ٤", "ب) ٥", "ج) ٤,٥", "د) ٦", "هـ) ٣", "و) ٧"], correct: 0, explanation: "٣٦÷٨ = ٤ قوارب بالضبط." });
+    questions.push({ text: "حل باستعمال خطة التمثيل بأشكال فن: ٤٣ طالبة شعر، ١٥ قصة، ٣٠ خطابة، ٥ في الثلاث، ٣ في شعر وخطابة فقط، ١ في شعر وقصة فقط. كم عدد المشاركات في الخطابة فقط؟", options: ["أ) ٢٢", "ب) ٢٥", "ج) ٢٠", "د) ٢٤", "هـ) ٢٨", "و) ١٨"], correct: 0, explanation: "الخطابة فقط = ٣٠ - (٣+٥) = ٢٢" });
+    questions.push({ text: "اشترت فاطمة ٣ كجم عسل وسعر الكيلو ١٢,٥ ريال، كم دفعت؟", options: ["أ) ٣٧,٥", "ب) ٣٦", "ج) ٣٨", "د) ٣٩", "هـ) ٣٧", "و) ٣٨,٥"], correct: 0, explanation: "٣ × ١٢,٥ = ٣٧,٥ ريالاً." });
+    questions.push({ text: "إذا مشى سعد ٢,٥ كلم وركض ٣,٧٥ كلم، ما مجموع ما قطعه؟", options: ["أ) ٦,٢٥", "ب) ٥,٢٥", "ج) ٦,٥", "د) ٦,٠", "هـ) ٧,٢٥", "و) ٦,٧٥"], correct: 0, explanation: "٢,٥ + ٣,٧٥ = ٦,٢٥" });
+
+    // 71-80 متنوعة (هندسة، قياس، كسور)
+    questions.push({ text: "ما حجم منشور طوله ٥ سم وعرضه ٢ سم وارتفاعه ٣ سم؟", options: ["أ) ٣٠ سم³", "ب) ٢٠ سم³", "ج) ٢٥ سم³", "د) ١٥ سم³", "هـ) ١٠ سم³", "و) ٣٥ سم³"], correct: 0, explanation: "الحجم = ٥×٢×٣=٣٠ سم³" });
+    questions.push({ text: "يدفع ١٠ طلاب ١٣٠ ريالاً ثمن تذاكر، كم ثمن التذكرة الواحدة؟", options: ["أ) ١٣", "ب) ١٢", "ج) ١٤", "د) ١٠", "هـ) ١١", "و) ١٥"], correct: 0, explanation: "١٣٠ ÷ ١٠ = ١٣ ريالاً." });
+    questions.push({ text: "أوجد ٧,٤٥ + ٨,٩ =", options: ["أ) ١٦,٣٥", "ب) ١٥,٣٥", "ج) ١٦,٤٥", "د) ١٥,٩", "هـ) ١٦,٠", "و) ١٦,٨"], correct: 0, explanation: "٧,٤٥+٨,٩=١٦,٣٥" });
+    questions.push({ text: "أوجد ١٢,٥ - ٨,٧ =", options: ["أ) ٣,٨", "ب) ٤,٢", "ج) ٣,٧", "د) ٤,١", "هـ) ٣,٢", "و) ٤,٤"], correct: 0, explanation: "١٢,٥ - ٨,٧ = ٣,٨" });
+    questions.push({ text: "إذا كان سعر القلم ١,٢٥ ريال وسعر المسطرة ٣,٧٥، فكم يدفع لشراء قلم ومسطرتين؟", options: ["أ) ٨,٧٥", "ب) ٧,٥", "ج) ٩,٠", "د) ٦,٢٥", "هـ) ٨,٠", "و) ٧,٢٥"], correct: 0, explanation: "١,٢٥ + ٢×٣,٧٥ = ١,٢٥+٧,٥=٨,٧٥" });
+    questions.push({ text: "أوجد قيمة ٤^٢ (٤ تربيع)", options: ["أ) ٨", "ب) ١٢", "ج) ١٦", "د) ٦٤", "هـ) ٢٠", "و) ٣٢"], correct: 2, explanation: "٤×٤=١٦" });
+    questions.push({ text: "إذا كان ٣٥% من الطلاب يفضلون الرياضيات، اكتب على صورة كسر عشري", options: ["أ) ٠,٣٥", "ب) ٠,٠٣٥", "ج) ٣,٥", "د) ٠,٣٥٠", "هـ) ٠,٣٥", "و) ٣٥"], correct: 0, explanation: "٣٥% = ٠,٣٥" });
+    questions.push({ text: "مزرعة فيها ١٢ بقرة تنتج كل بقرة ٧ لترات حليب يومياً، كم إنتاج المزرعة؟", options: ["أ) ٨٤", "ب) ٧٢", "ج) ٩٦", "د) ٦٠", "هـ) ٨٠", "و) ٨٨"], correct: 0, explanation: "١٢×٧=٨٤ لتراً" });
+    questions.push({ text: "شخص يركض بسرعة ٦,٢ كلم/ساعة لمدة ٣ ساعات، كم يقطع؟", options: ["أ) ١٨,٦", "ب) ١٨,٠", "ج) ١٧,٤", "د) ١٩,٢", "هـ) ٢٠", "و) ١٦,٨"], correct: 0, explanation: "٦,٢ × ٣ = ١٨,٦ كلم" });
+    questions.push({ text: "صندوق به ٥٠ تفاحة، أكل منه ١٢ تفاحة، ثم أضاف ٢٠ تفاحة، كم أصبح العدد؟", options: ["أ) ٥٨", "ب) ٦٢", "ج) ٥٠", "د) ٤٨", "هـ) ٥٤", "و) ٦٠"], correct: 0, explanation: "٥٠-١٢=٣٨، ٣٨+٢٠=٥٨" });
+
+    // 81-90 مهارات الضرب والقسمة المتقدمة
+    questions.push({ text: "ناتج ضرب ٣٢ × ١٥ =", options: ["أ) ٤٨٠", "ب) ٤٤٠", "ج) ٤٩٠", "د) ٤٧٠", "هـ) ٤٥٠", "و) ٥٠٠"], correct: 0, explanation: "٣٢×١٠=٣٢٠، ٣٢×٥=١٦٠، المجموع ٤٨٠" });
+    questions.push({ text: "قدر ناتج ٢٨ × ٤٣ باستعمال التقريب لأقرب عشرة", options: ["أ) ١٢٠٠", "ب) ١٢٥٠", "ج) ١١٠٠", "د) ١٣٠٠", "هـ) ١٠٥٠", "و) ١٥٠٠"], correct: 0, explanation: "٣٠×٤٠=١٢٠٠" });
+    questions.push({ text: "إذا كان في صندوق ٢٤ علبة، وكل علبة بها ٨ قطع شوكولاتة، فكم قطعة في ٥ صناديق؟", options: ["أ) ٩٦٠", "ب) ٨٠٠", "ج) ٨٤٠", "د) ٩٢٠", "هـ) ٨٨٠", "و) ١٠٠٠"], correct: 0, explanation: "٢٤×٨=١٩٢ لكل صندوق، ×٥ = ٩٦٠" });
+    questions.push({ text: "٨٦٨ ÷ ٣١ =", options: ["أ) ٢٨", "ب) ٢٧", "ج) ٢٩", "د) ٣٠", "هـ) ٢٦", "و) ٣٢"], correct: 0, explanation: "٣١×٢٨ = ٨٦٨" });
+    questions.push({ text: "يكتب ٤,٢٥ كعدد كسري", options: ["أ) ٤ ١/٤", "ب) ٤ ٣/٤", "ج) ٤ ١/٢", "د) ٤ ١/٥", "هـ) ٤ ٢/٣", "و) ٤ ١/٨"], correct: 0, explanation: "٠,٢٥ = ١/٤" });
+    questions.push({ text: "ما الكسر العشري للكسر ٥/٨؟", options: ["أ) ٠,٦٢٥", "ب) ٠,٦", "ج) ٠,٨", "د) ٠,٧٥", "هـ) ٠,٦٧", "و) ٠,٥"], correct: 0, explanation: "٥÷٨ = ٠,٦٢٥" });
+    questions.push({ text: "١/٢ + ١/٣ =", options: ["أ) ٢/٥", "ب) ٥/٦", "ج) ٣/٦", "د) ١/٦", "هـ) ٣/٥", "و) ٦/٦"], correct: 1, explanation: "المقام المشترك ٦: ٣/٦+٢/٦=٥/٦" });
+    questions.push({ text: "أوجد ٧/١٠ - ٢/١٠ =", options: ["أ) ١/٢", "ب) ٥/١٠", "ج) ١/٥", "د) ٩/١٠", "هـ) ٣/٥", "و) ١/٢"], correct: 0, explanation: "٧/١٠ - ٢/١٠ = ٥/١٠ = ١/٢" });
+    questions.push({ text: "اكتب ٠,٣٥ ككسر اعتيادي في أبسط صورة", options: ["أ) ٧/٢٠", "ب) ٣٥/١٠٠", "ج) ٧/٣٠", "د) ١/٣", "هـ) ٣/١٠", "و) ٥/٢٠"], correct: 0, explanation: "٠,٣٥ = ٣٥/١٠٠ = ٧/٢٠" });
+    questions.push({ text: "سعر ٧ كجم تفاح ٤٢ ريالاً، ما سعر الكيلو الواحد؟", options: ["أ) ٦", "ب) ٥", "ج) ٧", "د) ٨", "هـ) ٩", "و) ٤"], correct: 0, explanation: "٤٢ ÷ ٧ = ٦ ريالات" });
+
+    // 91-100 مراجعة شاملة
+    questions.push({ text: "أوجد قيمة العبارة ٢× (٩-٤) + ٦", options: ["أ) ١٦", "ب) ١٤", "ج) ١٢", "د) ١٨", "هـ) ٢٠", "و) ١٠"], correct: 0, explanation: "٩-٤=٥ ، ٢×٥=١٠ ، ١٠+٦=١٦" });
+    questions.push({ text: "إذا كان ٤٨ طالباً في رحلة، وكل حافلة تسع ١٢ طالباً، كم حافلة؟", options: ["أ) ٣", "ب) ٤", "ج) ٥", "د) ٦", "هـ) ٧", "و) ٨"], correct: 1, explanation: "٤٨ ÷ ١٢ = ٤" });
+    questions.push({ text: "قرأ خالد ٢٨ صفحة، وقرأت سارة ٣٥ صفحة، كم يزيد عدد صفحات سارة عن خالد؟", options: ["أ) ٧", "ب) ٦", "ج) ٨", "د) ٩", "هـ) ١٠", "و) ٥"], correct: 0, explanation: "٣٥-٢٨=٧" });
+    questions.push({ text: "ما ناتج ٢٠٠٠ ÷ ٤٠ =", options: ["أ) ٥٠", "ب) ٤٠", "ج) ٦٠", "د) ٣٠", "هـ) ٨٠", "و) ٧٠"], correct: 0, explanation: "٢٠٠٠÷٤٠=٥٠" });
+    questions.push({ text: "إذا كان تكلفة ٥ عبوات حليب ١٧,٥ ريال، فكم تكلفة ٣ عبوات؟", options: ["أ) ١٠,٥", "ب) ٩,٥", "ج) ١١", "د) ١٢,٥", "هـ) ١٠", "و) ٩"], correct: 0, explanation: "سعر العبوة ٣,٥ ، ٣×٣,٥=١٠,٥" });
+    questions.push({ text: "أي الأعداد التالية هو الأكبر؟ ٣,٧ - ٣,٦٩ - ٣,٧١", options: ["أ) ٣,٧", "ب) ٣,٦٩", "ج) ٣,٧١", "د) ٣,٦٨", "هـ) ٣,٧٠", "و) ٣,٦"], correct: 2, explanation: "٣,٧١ أكبر من ٣,٧٠ و٣,٧" });
+    questions.push({ text: "حل المعادلة ٢س + ١ = ٩", options: ["أ) س=٤", "ب) س=٥", "ج) س=٣", "د) س=٢", "هـ) س=٦", "و) س=٨"], correct: 0, explanation: "٢س=٨، س=٤" });
+    questions.push({ text: "ما الكسر الذي يساوي ٠,٣٧٥؟", options: ["أ) ٣/٨", "ب) ٣/٥", "ج) ٥/٨", "د) ١/٣", "هـ) ٢/٥", "و) ٣/١٠"], correct: 0, explanation: "٣÷٨=٠,٣٧٥" });
+    questions.push({ text: "قارن ٠,٩٩ □ ٠,٩٨", options: ["أ) >", "ب) <", "ج) =", "د) ≤", "هـ) ≥", "و) ≠"], correct: 0, explanation: "٠,٩٩ أكبر من ٠,٩٨" });
+    questions.push({ text: "استعمل خاصية التوزيع لكتابة ٧ × ٤٦", options: ["أ) ٧×٤٠+٧×٦", "ب) ٤٦×٧", "ج) ٤٠+٦×٧", "د) ٧× (٤٠-٦)", "هـ) ٧×٤٠-٧×٦", "و) ٤٦×٧"], correct: 0, explanation: "خاصية التوزيع: ٧×(٤٠+٦)=٧×٤٠+٧×٦" });
+
+    // بناء الأسئلة
+    const container = document.getElementById('questions-container');
+    function renderQuestions() {
+        container.innerHTML = '';
+        questions.forEach((q, idx) => {
+            const card = document.createElement('div');
+            card.className = 'question-card';
+            const qNum = idx+1;
+            card.innerHTML = `
+                <div class="question-text">${qNum}. ${q.text}</div>
+                <div class="options" id="options-${idx}">
+                    ${q.options.map((opt, optIdx) => `
+                        <div class="option">
+                            <input type="radio" name="q${idx}" value="${optIdx}" id="q${idx}_opt${optIdx}">
+                            <label for="q${idx}_opt${optIdx}">${opt}</label>
+                        </div>
+                    `).join('')}
+                </div>
+                <div class="feedback" id="fb-${idx}"></div>
+            `;
+            container.appendChild(card);
+        });
+    }
+    renderQuestions();
+
+    function attachLiveFeedback() {
+        for (let i = 0; i < questions.length; i++) {
+            const radios = document.querySelectorAll(`input[name="q${i}"]`);
+            radios.forEach(radio => {
+                radio.addEventListener('change', (e) => {
+                    const selectedVal = parseInt(e.target.value);
+                    const correctIdx = questions[i].correct;
+                    const fbDiv = document.getElementById(`fb-${i}`);
+                    if (selectedVal === correctIdx) {
+                        fbDiv.className = 'feedback correct';
+                        fbDiv.innerHTML = `✅ إجابة صحيحة! ${questions[i].explanation}`;
+                    } else {
+                        const correctLetter = String.fromCharCode(65+correctIdx);
+                        fbDiv.className = 'feedback wrong';
+                        fbDiv.innerHTML = `❌ إجابة خاطئة. الإجابة الصحيحة هي ${correctLetter}. ${questions[i].explanation}`;
+                    }
+                });
+            });
+        }
+    }
+    attachLiveFeedback();
+
+    const submitBtn = document.getElementById('submitBtn');
+    const resultDiv = document.getElementById('resultArea');
+    submitBtn.addEventListener('click', () => {
+        let score = 0;
+        for (let i = 0; i < questions.length; i++) {
+            const selected = document.querySelector(`input[name="q${i}"]:checked`);
+            const fb = document.getElementById(`fb-${i}`);
+            if (selected) {
+                const val = parseInt(selected.value);
+                if (val === questions[i].correct) {
+                    score++;
+                    if (!fb.classList.contains('correct')) {
+                        fb.className = 'feedback correct';
+                        fb.innerHTML = `✅ إجابة صحيحة! ${questions[i].explanation}`;
+                    }
+                } else {
+                    if (!fb.classList.contains('wrong')) {
+                        const correctLetter = String.fromCharCode(65+questions[i].correct);
+                        fb.className = 'feedback wrong';
+                        fb.innerHTML = `❌ خطأ. الإجابة الصحيحة: ${correctLetter}. ${questions[i].explanation}`;
+                    }
+                }
+            } else {
+                fb.className = 'feedback wrong';
+                fb.innerHTML = `⚠️ لم تختر إجابة. الإجابة الصحيحة: ${String.fromCharCode(65+questions[i].correct)}. ${questions[i].explanation}`;
+            }
+        }
+        const percent = (score / questions.length) * 100;
+        resultDiv.style.display = 'block';
+        resultDiv.innerHTML = `🎉 نتيجتك: ${score} / ${questions.length} (${percent.toFixed(1)}%)<br>${percent >= 70 ? 'ممتاز! واصل التفوق 🏆' : 'راجع الأخطاء وحاول مرة أخرى 📖'}`;
+        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+    });
+</script>
+</body>
+</html>
+```
